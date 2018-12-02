@@ -3,6 +3,8 @@ package com.unitedremote.codingchallenge.shopsservice.repository;
 import com.unitedremote.codingchallenge.shopsservice.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
+
 /**
  * This interface is the connector between {@link User} model and MongoDB's user collection.
  * <br>
@@ -14,4 +16,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface UserRepository extends MongoRepository<User, String> {
 
+    Optional<User> findByEmail(String email);
+
+    Boolean existsByEmail(String email);
 }
