@@ -4,7 +4,9 @@ package com.unitedremote.codingchallenge.shopsservice.service;
 import com.unitedremote.codingchallenge.shopsservice.DummyData;
 import com.unitedremote.codingchallenge.shopsservice.exception.BadRequestException;
 import com.unitedremote.codingchallenge.shopsservice.model.User;
+import com.unitedremote.codingchallenge.shopsservice.payload.JwtAuthenticationResponse;
 import com.unitedremote.codingchallenge.shopsservice.repository.UserRepository;
+import com.unitedremote.codingchallenge.shopsservice.security.JwtTokenProvider;
 import com.unitedremote.codingchallenge.shopsservice.service.impl.UserServiceImpl;
 import com.unitedremote.codingchallenge.shopsservice.util.HTTPCode;
 import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
@@ -17,6 +19,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Map;
@@ -38,6 +43,10 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private AuthenticationManager authenticationManager;
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
     @InjectMocks
     private UserServiceImpl userService;
     private Map<String, String> loginOrSignUpRequest;
@@ -74,9 +83,28 @@ public class UserServiceImplTest {
         RestResponse actualRestResponse = this.userService.register(this.loginOrSignUpRequest);
         // the expected result
         RestResponse expectedRestResponse = new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
-                "Congratulations! You've successfully registered.",
-                "User registered successfully.");
+                "User successfully registered.");
         // check equality between the current result and the expected one
         assertThat(actualRestResponse, is(equalTo(expectedRestResponse)));
     }
+
+    /* --- Testing login method -- */
+    @Test
+    public void login_LoginRequest_ShouldReturnJwtAuthenticationResponse() {
+        // mock manager authenticate method to return AuthenticationToken
+        when(this.authenticationManager.authenticate(any(Authentication.class)))
+                .thenReturn(new UsernamePasswordAuthenticationToken(
+                        this.loginOrSignUpRequest.get("email"),
+                        this.loginOrSignUpRequest.get("password")
+                ));
+        // mock token provider's generateToken method to return a random token
+        when(this.jwtTokenProvider.generateToken(any(Authentication.class))).thenReturn("token");
+        // actual result
+        JwtAuthenticationResponse actualJwtAuthenticationResponse = this.userService.login(this.loginOrSignUpRequest);
+        // expected result
+        JwtAuthenticationResponse expectedJwtAuthenticationResponse = new JwtAuthenticationResponse("token");
+        // check equality between the current result and the expected one
+        assertThat(actualJwtAuthenticationResponse, is(equalTo(expectedJwtAuthenticationResponse)));
+    }
+
 }

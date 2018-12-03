@@ -2,6 +2,7 @@ package com.unitedremote.codingchallenge.shopsservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unitedremote.codingchallenge.shopsservice.DummyData;
+import com.unitedremote.codingchallenge.shopsservice.payload.JwtAuthenticationResponse;
 import com.unitedremote.codingchallenge.shopsservice.service.UserService;
 import com.unitedremote.codingchallenge.shopsservice.util.HTTPCode;
 import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
@@ -45,8 +46,7 @@ public class UserControllerTest {
     @Test
     public void register_SignupRequest_ShouldReturnRestResponseWithCreated() throws Exception {
         RestResponse restResponse = new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
-                "Congratulations! You've successfully registered.",
-                "User registered successfully");
+                "User successfully registered.");
 
         given(this.userService.register(this.LoginOrSignUpRequest)).willReturn(restResponse);
 
@@ -59,5 +59,20 @@ public class UserControllerTest {
                 .getResponse();
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+    }
+
+    @Test
+    public void login_LoginRequest_ShouldReturnJwtAuthenticationResponse() throws Exception {
+        given(this.userService.login(this.LoginOrSignUpRequest)).willReturn(new JwtAuthenticationResponse("token"));
+
+        MockHttpServletResponse response =  this.mockMvc.perform(
+                post("/users/signin")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(LoginOrSignUpRequestJson.write(this.LoginOrSignUpRequest).getJson()))
+                .andReturn()
+                .getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 }

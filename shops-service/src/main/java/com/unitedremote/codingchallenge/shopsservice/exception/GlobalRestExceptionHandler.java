@@ -26,7 +26,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<RestResponse> badRequest(BadRequestException badRequestException) {
         RestResponse response = new RestResponse();
         response.setStatusCode(HTTPCode.BAD_REQUEST);
-        response.setInternalMessage(badRequestException.getMessage());
+        response.setMessage(badRequestException.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -34,8 +34,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<RestResponse> resourceNotFound(ResourceNotFoundException resourceNotFoundException) {
         RestResponse response = new RestResponse();
         response.setStatusCode(HTTPCode.NOT_FOUND);
-        response.setInternalMessage(resourceNotFoundException.getMessage());
-        response.setUserMessage("Page not found.");
+        response.setMessage(resourceNotFoundException.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

@@ -1,5 +1,6 @@
 package com.unitedremote.codingchallenge.shopsservice.controller;
 
+import com.unitedremote.codingchallenge.shopsservice.payload.JwtAuthenticationResponse;
 import com.unitedremote.codingchallenge.shopsservice.service.UserService;
 import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class UserController {
         RestResponse restResponse = this.userService.register(signUpRequest);
         UriComponents uriComponents = uriComponentsBuilder.path("/users").buildAndExpand();
         return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@RequestBody Map<String, String> loginRequest) {
+        return ResponseEntity.ok(this.userService.login(loginRequest));
     }
 }

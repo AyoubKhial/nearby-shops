@@ -9,16 +9,14 @@ import java.util.Objects;
 public class RestResponse {
 	private String status;
 	private int code;
-	private String userMessage;
-	private String internalMessage;
+	private String message;
 
 	public RestResponse() {}
 
-	public RestResponse(String status, int code, String userMessage, String internalMessage) {
+	public RestResponse(String status, int code, String message) {
 		this.status = status;
 		this.code = code;
-		this.userMessage = userMessage;
-		this.internalMessage = internalMessage;
+		this.message = message;
 	}
 
 	public String getStatus() {
@@ -37,20 +35,12 @@ public class RestResponse {
 		this.code = code;
 	}
 
-	public String getUserMessage() {
-		return userMessage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setUserMessage(String userMessage) {
-		this.userMessage = userMessage;
-	}
-
-	public String getInternalMessage() {
-		return internalMessage;
-	}
-
-	public void setInternalMessage(String internalMessage) {
-		this.internalMessage = internalMessage;
+	public void setMessage(String userMessage) {
+		this.message = message;
 	}
 
 	public void setStatusCode(Pair<Integer, String> pair) {
@@ -65,12 +55,11 @@ public class RestResponse {
         RestResponse that = (RestResponse) o;
         return code == that.code &&
                 Objects.equals(status, that.status) &&
-                Objects.equals(userMessage, that.userMessage) &&
-				Objects.equals(internalMessage, that.internalMessage);
+                Objects.equals(message, that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, code, userMessage, internalMessage);
+        return Objects.hash(status, code, message);
     }
 }
