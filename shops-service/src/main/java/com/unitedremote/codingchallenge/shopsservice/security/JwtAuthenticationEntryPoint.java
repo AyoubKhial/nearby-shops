@@ -19,11 +19,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException {
-        if(("/api/auth/signin").equals(httpServletRequest.getRequestURI())) {
+        if(("/api/v1/users/signin").equals(httpServletRequest.getRequestURI())) {
             httpServletResponse.setContentType("application/json");
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             httpServletResponse.getOutputStream().println("{ \"status\": \"Bad Request\",");
-            httpServletResponse.getOutputStream().println("\"error\": 404,");
+            httpServletResponse.getOutputStream().println("\"error\": 400,");
             httpServletResponse.getOutputStream().println("\"message\": \"The email or password are incorrect.\"}");
         }
         else {

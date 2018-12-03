@@ -27,7 +27,7 @@ public class JwtAuthenticationEntryPointTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         AuthenticationException ex = new AuthenticationCredentialsNotFoundException("");
-        request.setRequestURI("/api/auth/signin");
+        request.setRequestURI("/api/v1/users/signin");
         this.jwtAuthenticationEntryPoint.commence(request, response, ex);
 
         assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());

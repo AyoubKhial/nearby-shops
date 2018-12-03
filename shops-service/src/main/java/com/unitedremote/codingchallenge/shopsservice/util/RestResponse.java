@@ -12,6 +12,8 @@ public class RestResponse {
 	private String userMessage;
 	private String internalMessage;
 
+	public RestResponse() {}
+
 	public RestResponse(String status, int code, String userMessage, String internalMessage) {
 		this.status = status;
 		this.code = code;
