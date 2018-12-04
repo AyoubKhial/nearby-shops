@@ -5,9 +5,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * This class will hold the basic structure of a document in the <b>user</b> collection
+ * This class will hold the basic structure of a document in the <b>users</b> collection.
  * @author Ayoub Khial
- * @version 1.0
  */
 @Document(collection = "users")
 public class User {

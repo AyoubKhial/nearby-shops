@@ -10,6 +10,7 @@ import com.unitedremote.codingchallenge.shopsservice.security.JwtTokenProvider;
 import com.unitedremote.codingchallenge.shopsservice.service.impl.UserServiceImpl;
 import com.unitedremote.codingchallenge.shopsservice.util.HTTPCode;
 import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -107,4 +108,9 @@ public class UserServiceImplTest {
         assertThat(actualJwtAuthenticationResponse, is(equalTo(expectedJwtAuthenticationResponse)));
     }
 
+    @After
+    public void tearDown() {
+        this.loginOrSignUpRequest = null;
+        this.user = null;
+    }
 }

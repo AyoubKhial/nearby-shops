@@ -39,7 +39,7 @@ public class RestResponse {
 		return message;
 	}
 
-	public void setMessage(String userMessage) {
+	public void setMessage(String message) {
 		this.message = message;
 	}
 

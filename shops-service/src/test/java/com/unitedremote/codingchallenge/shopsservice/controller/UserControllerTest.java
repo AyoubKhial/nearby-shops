@@ -6,6 +6,7 @@ import com.unitedremote.codingchallenge.shopsservice.payload.JwtAuthenticationRe
 import com.unitedremote.codingchallenge.shopsservice.service.UserService;
 import com.unitedremote.codingchallenge.shopsservice.util.HTTPCode;
 import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,5 +75,10 @@ public class UserControllerTest {
                 .getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @After
+    public void tearDown() {
+        this.LoginOrSignUpRequest = null;
     }
 }

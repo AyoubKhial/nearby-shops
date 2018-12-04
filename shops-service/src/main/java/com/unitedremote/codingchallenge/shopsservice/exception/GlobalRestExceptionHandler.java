@@ -21,7 +21,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice()
 public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // TODO: Figure out how to set a user message !
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<RestResponse> badRequest(BadRequestException badRequestException) {
         RestResponse response = new RestResponse();
