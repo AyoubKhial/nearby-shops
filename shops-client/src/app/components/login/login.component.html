@@ -1,0 +1,65 @@
+<div class="login-page">
+    <div class="form">
+        <form class="register-form" *ngIf="!activeFormLogin" [formGroup]="registerForm" novalidate (ngSubmit)="register()">
+            <div class="message" *ngIf="badRequestError != ''">
+                <span class="error">
+                    {{ badRequestError }}
+                </span>
+            </div>
+            <span class="error" *ngIf="registerEmail.invalid && !!registerEmail.errors.required && (registerEmail.dirty || registerEmail.touched)">
+                email is required.
+            </span>
+            <span class="error" *ngIf="registerEmail.invalid && !!registerEmail.errors.email && (registerEmail.dirty || registerEmail.touched)">
+                email is invalid.
+            </span>
+            <input type="text" placeholder="email" formControlName="registerEmail" />
+
+            <span class="error" *ngIf="registerPassword.invalid && !!registerPassword.errors.required && (registerPassword.dirty || registerPassword.touched)">
+                password is required.
+            </span>
+            <span class="error" *ngIf="registerPassword.invalid && !!registerPassword.errors.minlength && (registerPassword.dirty || registerPassword.touched)">
+                password should contain at least 8 character.
+            </span>
+            <input type="password" placeholder="password" formControlName="registerPassword" />
+
+            <span class="error" *ngIf="confirmPassword.invalid && !!confirmPassword.errors.required && (confirmPassword.dirty || confirmPassword.touched)">
+                this field is required.
+            </span>
+            <span class="error" *ngIf="!passwordMatch">
+                please enter the same password.
+            </span>
+            <input type="password" placeholder="confirm password" formControlName="confirmPassword" />
+            <button type="submit">Sign Up</button>
+            <p class="message">Already registered? <a (click)="toggleForms()">Sign In</a></p>
+        </form>
+        <form class="login-form" *ngIf="activeFormLogin" [formGroup]="loginForm" novalidate (ngSubmit)="login()">
+            <div class="message" *ngIf="successfulRegister">
+                <span class="success">
+                    You successfully registered.
+                </span>
+            </div>
+            <div class="message" *ngIf="badRequestError != ''">
+                <span class="error">
+                    {{ badRequestError }}
+                </span>
+            </div>
+            <span class="error" *ngIf="loginEmail.invalid && !!loginEmail.errors.required && (loginEmail.dirty || loginEmail.touched)">
+                email is required.
+            </span>
+            <span class="error" *ngIf="loginEmail.invalid && !!loginEmail.errors.email && (loginEmail.dirty || loginEmail.touched)">
+                email is invalid.
+            </span>
+            <input type="text" placeholder="email" formControlName="loginEmail" />
+
+            <span class="error" *ngIf="loginPassword.invalid && !!loginPassword.errors.required && (loginPassword.dirty || loginPassword.touched)">
+                password is required.
+            </span>
+            <span class="error" *ngIf="loginPassword.invalid && !!loginPassword.errors.minlength && (loginPassword.dirty || loginPassword.touched)">
+                password should contain at least 8 character.
+            </span>
+            <input type="password" placeholder="password" formControlName="loginPassword" />
+            <button type="submit">Login</button>
+            <p class="message">Not registered? <a (click)="toggleForms()">Create an account</a></p>
+        </form>
+    </div>
+</div>
