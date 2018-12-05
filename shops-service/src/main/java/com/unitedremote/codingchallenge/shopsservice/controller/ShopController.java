@@ -5,13 +5,12 @@ import com.unitedremote.codingchallenge.shopsservice.service.ShopService;
 import com.unitedremote.codingchallenge.shopsservice.util.PagedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationConstants.DEFAULT_PAGE_NUMBER;
 import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationConstants.DEFAULT_PAGE_SIZE;
+
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
 @RequestMapping("/shops")

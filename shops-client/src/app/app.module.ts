@@ -9,11 +9,14 @@ import { LoginComponent } from './components/login/login.component';
 
 import { AuthentificationService } from './services/authentification.service';
 import { TokenService } from './services/token.service';
+import { ShopsListComponent } from './components/shops-list/shops-list.component';
+import { ShopsService } from './services/shops.service';
 
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent
+        LoginComponent,
+        ShopsListComponent
     ],
     imports: [
         BrowserModule,
@@ -23,7 +26,8 @@ import { TokenService } from './services/token.service';
     ],
     providers: [
         AuthentificationService,
-        TokenService
+        TokenService,
+        ShopsService
     ],
     bootstrap: [AppComponent]
 })
