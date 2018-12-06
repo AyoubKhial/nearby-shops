@@ -26,4 +26,12 @@ export class PrefererredShopsComponent implements OnInit {
         });
     }
 
+    removeShopeFromPreferred(shopId: string) {
+        this.shopsService.removeShopeFromPreferred(shopId).subscribe(response => {
+            if(response.code == 201) {
+                this.getPreferredShops();
+            }
+        });
+    }
+
 }

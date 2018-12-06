@@ -30,8 +30,8 @@ public class ValidatingRequestParametersTest {
 
     @Test
     public void validatePageSizeParameter_ParameterGreaterThanMax_ShouldThrowBadRequestException() {
-        this.expectedException.expectMessage("Page size must not be greater than 50.");
-        ValidatingRequestParameters.validatePageSizeParameter("80");
+        this.expectedException.expectMessage("Page size must not be greater than 400.");
+        ValidatingRequestParameters.validatePageSizeParameter("500");
     }
 
     @Test

@@ -35,38 +35,6 @@ public class ShopController {
         return ResponseEntity.ok(this.shopService.getAllShopsSortedByDistance(page, size, longitude, latitude));
     }
 
-    @GetMapping("/liked")
-    public ResponseEntity<PagedResponse<Shop>> getLikedShopsByUser(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
-                                                                   @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
-                                                                   @CurrentUser UserPrincipal userPrincipal) {
-        return ResponseEntity.ok(this.shopService.getLikedShopsByUser(page, size, userPrincipal.getId()));
-    }
-
-    @GetMapping("/disliked")
-    public ResponseEntity<PagedResponse<Shop>> getDislikedShopsByUser(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
-                                                                      @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
-                                                                      @CurrentUser UserPrincipal userPrincipal) {
-        return ResponseEntity.ok(this.shopService.getDislikedShopsByUser(page, size, userPrincipal.getId()));
-    }
-
-    @PostMapping("/like")
-    public ResponseEntity<RestResponse> addShopToLikedShops(@RequestParam(value = "shop") String shopId,
-                                                            @CurrentUser UserPrincipal userPrincipal,
-                                                            UriComponentsBuilder uriComponentsBuilder)  {
-        RestResponse restResponse = this.shopService.addShopToLikedShops(shopId, userPrincipal.getId());
-        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
-        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
-    }
-
-    @PostMapping("/dislike")
-    public ResponseEntity<RestResponse> addShopToDislikedShops(@RequestParam(value = "shop") String shopId,
-                                                               @CurrentUser UserPrincipal userPrincipal,
-                                                               UriComponentsBuilder uriComponentsBuilder)  {
-        RestResponse restResponse = this.shopService.addShopToDislikedShops(shopId, userPrincipal.getId());
-        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
-        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
-    }
-
     @PostMapping("/like/undo")
     public ResponseEntity<RestResponse> removeShopFromLikedShops(@RequestParam(value = "shop") String shopId,
                                                                  @CurrentUser UserPrincipal userPrincipal,
@@ -81,6 +49,38 @@ public class ShopController {
                                                                     @CurrentUser UserPrincipal userPrincipal,
                                                                     UriComponentsBuilder uriComponentsBuilder)  {
         RestResponse restResponse = this.shopService.removeShopFromDislikedShops(shopId, userPrincipal.getId());
+        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
+        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
+    }
+
+    @GetMapping("/liked")
+    public ResponseEntity<PagedResponse<Shop>> getLikedShopsByUser(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
+                                                                   @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
+                                                                   @CurrentUser UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.shopService.getLikedShopsByUser(page, size, userPrincipal.getId()));
+    }
+
+    @GetMapping("/disliked")
+    public ResponseEntity<PagedResponse<Shop>> getDislikedShopsByUser(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
+                                                                      @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
+                                                                      @CurrentUser UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.shopService.getDislikedShopsByUser(page, size, userPrincipal.getId()));
+    }
+
+    @GetMapping("/like")
+    public ResponseEntity<RestResponse> addShopToLikedShops(@RequestParam(value = "shop") String shopId,
+                                                            @CurrentUser UserPrincipal userPrincipal,
+                                                            UriComponentsBuilder uriComponentsBuilder)  {
+        RestResponse restResponse = this.shopService.addShopToLikedShops(shopId, userPrincipal.getId());
+        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
+        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
+    }
+
+    @GetMapping("/dislike")
+    public ResponseEntity<RestResponse> addShopToDislikedShops(@RequestParam(value = "shop") String shopId,
+                                                               @CurrentUser UserPrincipal userPrincipal,
+                                                               UriComponentsBuilder uriComponentsBuilder)  {
+        RestResponse restResponse = this.shopService.addShopToDislikedShops(shopId, userPrincipal.getId());
         UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
         return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
     }
