@@ -1,13 +1,18 @@
 <section class="shops">
-    <div class="shop-card" *ngFor="let shop of shops">
-        <div class="shop-info">
-            <h5>{{shop.name}}</h5>
-        </div>
-        <div class="shop-image">
-            <img src="{{shop.picture}}">
-        </div>
-        <div class="shop-info buttom">
-            <button class="remove" (click)="removeShopeFromPreferred(shop.id)">Remove</button>
-        </div>
+    <div class="alert alert-warning" role="alert" *ngIf="shops.length == 0; else shopsList">
+        You have no preferred shops !
     </div>
+    <ng-template #shopsList>
+        <div class="shop-card" *ngFor="let shop of shops">
+            <div class="shop-info">
+                <h5>{{shop.name}}</h5>
+            </div>
+            <div class="shop-image">
+                <img src="{{shop.picture}}">
+            </div>
+            <div class="shop-info buttom">
+                <button class="remove" (click)="removeShopeFromPreferred(shop.id)">Remove</button>
+            </div>
+        </div>
+    </ng-template>
 </section>

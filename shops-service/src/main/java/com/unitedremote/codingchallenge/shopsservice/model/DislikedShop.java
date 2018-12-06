@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Ayoub Khial
  */
 @Document(collection = "dislikedShops")
-
 public class DislikedShop {
     @Id
     private String id;

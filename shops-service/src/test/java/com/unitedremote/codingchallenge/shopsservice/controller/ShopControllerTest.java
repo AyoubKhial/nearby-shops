@@ -72,24 +72,6 @@ public class ShopControllerTest {
         assertThat(response.getContentAsString()).isEqualTo(this.jsonShop.write(expectedPagedShopResponse).getJson());
     }
 
-    @Test
-    public void getLikedShopsByUser_UserGiven_ShouldReturnPagedShopResponse() throws Exception {
-
-        // given
-        given(this.shopService.getLikedShopsByUser(anyString(), anyString(), anyString()))
-                .willReturn(this.pagedShopResponse);
-
-        // when
-        MockHttpServletResponse response = this.mockMvc.perform(get("/shops/liked")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        PagedResponse<Shop> expectedPagedShopResponse = new PagedResponse<>(Collections.singletonList(DummyData.dummyShop()), 0, 0, 1, 1, true);
-        assertThat(response.getContentAsString()).isEqualTo(this.jsonShop.write(expectedPagedShopResponse).getJson());
-    }
-
     @After
     public void tearDown() {
         this.pagedShopResponse = null;

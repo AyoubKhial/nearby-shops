@@ -4,7 +4,9 @@ import com.unitedremote.codingchallenge.shopsservice.DummyData;
 import com.unitedremote.codingchallenge.shopsservice.model.Shop;
 import com.unitedremote.codingchallenge.shopsservice.repository.ShopRepository;
 import com.unitedremote.codingchallenge.shopsservice.service.impl.ShopServiceImpl;
+import com.unitedremote.codingchallenge.shopsservice.util.HTTPCode;
 import com.unitedremote.codingchallenge.shopsservice.util.PagedResponse;
+import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -105,6 +107,38 @@ public class ShopServiceImplTest {
         PagedResponse<Shop> expectedShopResponsePage = new PagedResponse<>(Collections.emptyList(), 0, 0, 0, 1, true);
 
         assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(expectedShopResponsePage)));
+    }
+
+    @Test
+    public void addShopToLikedShops_UserIdAndShopIdGiven_ShouldReturnRestResponse() {
+        RestResponse actualPagedShopResponse = this.shopService.addShopToLikedShops("1", "1");
+        RestResponse expectedPagedShopResponse = new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
+                "Shop added successfully into your liked list.");
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(expectedPagedShopResponse)));
+    }
+
+    @Test
+    public void addShopToDislikedShops_UserIdAndShopIdGiven_ShouldReturnRestResponse() {
+        RestResponse actualPagedShopResponse = this.shopService.addShopToDislikedShops("1", "1");
+        RestResponse expectedPagedShopResponse = new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
+                "Shop added successfully into your disliked list.");
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(expectedPagedShopResponse)));
+    }
+
+    @Test
+    public void removeShopFromLikedShops_UserIdAndShopIdGiven_ShouldReturnRestResponse() {
+        RestResponse actualPagedShopResponse = this.shopService.removeShopFromLikedShops("1", "1");
+        RestResponse expectedPagedShopResponse = new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
+                "Shop removed successfully from your liked list.");
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(expectedPagedShopResponse)));
+    }
+
+    @Test
+    public void removeShopFromDislikedShops_UserIdAndShopIdGiven_ShouldReturnRestResponse() {
+        RestResponse actualPagedShopResponse = this.shopService.removeShopFromDislikedShops("1", "1");
+        RestResponse expectedPagedShopResponse = new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
+                "Shop removed successfully from your disliked list.");
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(expectedPagedShopResponse)));
     }
 
     @After

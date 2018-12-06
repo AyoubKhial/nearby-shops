@@ -33,7 +33,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     private unsubscribe = new Subject<void>();
 
-    constructor(private authentificationService: AuthentificationService, private tokenService: TokenService, private router: Router) { }
+    constructor(private authentificationService: AuthentificationService, private tokenService: TokenService, private router: Router) {
+        if(tokenService.getToken()) {
+            this.router.navigate(['/home']);
+        }
+    }
 
     ngOnInit() {
         // login form appears first

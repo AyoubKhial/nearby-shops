@@ -11,78 +11,51 @@ import { ShopsPage } from '../models/shops-page';
 export class ShopsService {
 
     private apiUrl: string = 'http://localhost:8080/api/v1/shops';
-
-    constructor(private httpClient: HttpClient, private tokenService: TokenService) { }
-
-    getAllShops(location): Observable<ShopsPage> {
-        const httpOptions = {
+    private httpOptions = {
             headers: new HttpHeaders({
                 'Authorization': this.tokenService.getToken()
             })
         };
-        return this.httpClient.get<ShopsPage>(this.apiUrl + "?longitude=" + location.longitude + "&latitude=" + location.latitude, httpOptions)
+
+    constructor(private httpClient: HttpClient, private tokenService: TokenService) { }
+
+    getAllShops(location): Observable<ShopsPage> {
+        return this.httpClient.get<ShopsPage>(this.apiUrl + "?longitude=" + location.longitude + "&latitude=" + location.latitude, this.httpOptions)
             .pipe(map(response => {
                 return response;
             }));
     }
 
     getPreferredShops(): Observable<ShopsPage> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Authorization': this.tokenService.getToken()
-            })
-        };
-        return this.httpClient.get<ShopsPage>(this.apiUrl + "/liked", httpOptions)
+        return this.httpClient.get<ShopsPage>(this.apiUrl + "/liked", this.httpOptions)
             .pipe(map(response => {
                 return response;
             }));
     }
 
     addShopToPreferred(shopId: string): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': this.tokenService.getToken()
-            })
-        };
-        return this.httpClient.post(this.apiUrl + "/like?shop=" + shopId, httpOptions)
+        return this.httpClient.post(this.apiUrl + "/like?shop=" + shopId, this.httpOptions)
             .pipe(map(response => {
                 return response;
             }));
     }
 
     addShopToDisliked(shopId: string): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': this.tokenService.getToken()
-            })
-        };
-        return this.httpClient.post(this.apiUrl + "/dislike?shop=" + shopId, httpOptions)
+        return this.httpClient.post(this.apiUrl + "/dislike?shop=" + shopId, this.httpOptions)
             .pipe(map(response => {
                 return response;
             }));
     }
 
     removeShopeFromPreferred(shopId: string): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Authorization': this.tokenService.getToken()
-            })
-        };
-        return this.httpClient.delete(this.apiUrl + "/like/undo?shop=" + shopId, httpOptions)
+        return this.httpClient.delete(this.apiUrl + "/like/undo?shop=" + shopId, this.httpOptions)
             .pipe(map(response => {
                 return response;
             }));
     }
 
     removeShopeFromDisliked(shopId: string): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Authorization': this.tokenService.getToken()
-            })
-        };
-        return this.httpClient.delete(this.apiUrl + "/dislike/undo?shop=" + shopId, httpOptions)
+        return this.httpClient.delete(this.apiUrl + "/dislike/undo?shop=" + shopId, this.httpOptions)
             .pipe(map(response => {
                 return response;
             }));

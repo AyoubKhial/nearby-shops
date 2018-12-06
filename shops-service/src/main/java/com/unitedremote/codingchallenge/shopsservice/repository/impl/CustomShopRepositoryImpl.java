@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A custom shop repository to do some complicated queries using MongoTemplate
+ * A custom shop repository to do some complicated queries using MongoTemplate.
  */
 public class CustomShopRepositoryImpl implements CustomShopRepository {
 
@@ -71,24 +71,38 @@ public class CustomShopRepositoryImpl implements CustomShopRepository {
         return this.mongoTemplate.aggregate(aggregation, "shops", Shop.class).getMappedResults();
     }
 
+    /**
+     * Add a shop into likedShops list.
+     * @param shopId the shop we want to add into likedShops.
+     * @param userId current user.
+     */
     @Override
     public void addShopToLikedShops(String shopId, String userId) {
         Document likedShop = new Document();
         likedShop.append("user", new ObjectId(userId));
         likedShop.append("shop", new ObjectId(shopId));
-        MongoCollection collection = this.mongoTemplate.getCollection("likedShops");
-        collection.insertOne(likedShop);
+        this.mongoTemplate.insert(likedShop, "likedShops");
+        //collection.insertOne(likedShop);
     }
 
+    /**
+     * Add a shop into dislikedShops list.
+     * @param shopId the shop we want to add into dislikedShops.
+     * @param userId current user.
+     */
     @Override
     public void addShopToDislikedShops(String shopId, String userId) {
         Document dislikedShop = new Document();
         dislikedShop.append("user", new ObjectId(userId));
         dislikedShop.append("shop", new ObjectId(shopId));
-        MongoCollection collection = this.mongoTemplate.getCollection("dislikedShops");
-        collection.insertOne(dislikedShop);
+        this.mongoTemplate.insert(dislikedShop, "dislikedShops");
     }
 
+    /**
+     * Remove a shop from likedShops list.
+     * @param shopId the shop we want to remove from likedShops.
+     * @param userId current user.
+     */
     @Override
     public void removeShopFromLikedShops(String shopId, String userId) {
         MongoCollection collection = this.mongoTemplate.getCollection("likedShops");
@@ -99,6 +113,11 @@ public class CustomShopRepositoryImpl implements CustomShopRepository {
         collection.deleteOne(document);
     }
 
+    /**
+     * Remove a shop from dislikedShops list.
+     * @param shopId the shop we want to remove from dislikedShops.
+     * @param userId current user.
+     */
     @Override
     public void removeShopFromDislikedShops(String shopId, String userId) {
         MongoCollection collection = this.mongoTemplate.getCollection("dislikedShops");
