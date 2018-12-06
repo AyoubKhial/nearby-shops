@@ -3,7 +3,9 @@ package com.unitedremote.codingchallenge.shopsservice.service.impl;
 import com.unitedremote.codingchallenge.shopsservice.model.Shop;
 import com.unitedremote.codingchallenge.shopsservice.repository.ShopRepository;
 import com.unitedremote.codingchallenge.shopsservice.service.ShopService;
+import com.unitedremote.codingchallenge.shopsservice.util.HTTPCode;
 import com.unitedremote.codingchallenge.shopsservice.util.PagedResponse;
+import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
 import com.unitedremote.codingchallenge.shopsservice.util.ValidatingRequestParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -112,5 +114,12 @@ public class ShopServiceImpl implements ShopService {
         // return the paged response
         return new PagedResponse<>(shopPage.getContent(), shopPage.getNumber(),
                 shopPage.getSize(), shopPage.getTotalElements(), shopPage.getTotalPages(), shopPage.isLast());
+    }
+
+    @Override
+    public RestResponse addShopToLikedShops(String shopId, String userId) {
+        this.shopRepository.addShopToLikedShops(shopId, userId);
+        return new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
+                "Shop added successfully into your liked list.");
     }
 }

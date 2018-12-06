@@ -1,7 +1,9 @@
 package com.unitedremote.codingchallenge.shopsservice.repository.impl;
 
+import com.mongodb.client.MongoCollection;
 import com.unitedremote.codingchallenge.shopsservice.model.Shop;
 import com.unitedremote.codingchallenge.shopsservice.repository.CustomShopRepository;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -65,6 +67,15 @@ public class CustomShopRepositoryImpl implements CustomShopRepository {
         Aggregation aggregation = Aggregation
                 .newAggregation(lookupOperation, unwindOperation, Aggregation.match(Criteria.where("shops.user")
                         .is(new ObjectId(userId))));
-        return mongoTemplate.aggregate(aggregation, "shops", Shop.class).getMappedResults();
+        return this.mongoTemplate.aggregate(aggregation, "shops", Shop.class).getMappedResults();
+    }
+
+    @Override
+    public void addShopToLikedShops(String shopId, String userId) {
+        Document likedShop = new Document();
+        likedShop.append("user", new ObjectId(userId));
+        likedShop.append("shop", new ObjectId(shopId));
+        MongoCollection collection = mongoTemplate.getCollection("likedShops");
+        collection.insertOne(likedShop);
     }
 }

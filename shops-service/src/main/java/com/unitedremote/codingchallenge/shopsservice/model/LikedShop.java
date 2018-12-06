@@ -2,11 +2,13 @@ package com.unitedremote.codingchallenge.shopsservice.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * This class will hold the basic structure of a document in the <b>LikedShops</b> collection.
  * @author Ayoub Khial
  */
+@Document(collection = "likedShops")
 public class LikedShop {
 
     @Id

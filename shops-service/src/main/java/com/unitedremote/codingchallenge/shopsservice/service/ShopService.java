@@ -2,6 +2,7 @@ package com.unitedremote.codingchallenge.shopsservice.service;
 
 import com.unitedremote.codingchallenge.shopsservice.model.Shop;
 import com.unitedremote.codingchallenge.shopsservice.util.PagedResponse;
+import com.unitedremote.codingchallenge.shopsservice.util.RestResponse;
 
 public interface ShopService {
 
@@ -10,4 +11,6 @@ public interface ShopService {
     PagedResponse<Shop> getLikedShopsByUser(String page, String size, String userId);
 
     PagedResponse<Shop> getDislikedShopsByUser(String page, String size, String userId);
+
+    RestResponse addShopToLikedShops(String shopId, String userId);
 }
