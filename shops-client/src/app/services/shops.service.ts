@@ -21,4 +21,12 @@ export class ShopsService {
                 return response;
             }));
     }
+
+    getPreferredShops(): Observable<ShopsPage> {
+        var config = { headers: { Authorization: this.tokenService.getToken() }}
+        return this.httpClient.get<ShopsPage>(this.apiUrl + "/liked", config)
+            .pipe(map(response => {
+                return response;
+            }));
+    }
 }

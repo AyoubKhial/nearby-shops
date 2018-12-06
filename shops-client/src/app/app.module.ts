@@ -12,12 +12,14 @@ import { TokenService } from './services/token.service';
 import { ShopsListComponent } from './components/shops-list/shops-list.component';
 import { ShopsService } from './services/shops.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { PrefererredShopsComponent } from './components/prefererred-shops/prefererred-shops.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        ShopsListComponent
+        ShopsListComponent,
+        PrefererredShopsComponent
     ],
     imports: [
         BrowserModule,

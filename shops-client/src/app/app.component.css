@@ -1,7 +1,18 @@
+a {
+    cursor: pointer;
+}
 .fa-heart {
     color: #FF3333
 }
 
 .navbar, .footer-copyright {
     background-color: #00b4ff
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff
+}
+
+.active {
+    border-bottom: 2px solid #ffffff
 }

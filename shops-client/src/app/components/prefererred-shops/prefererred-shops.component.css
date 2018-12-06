@@ -69,15 +69,9 @@ body {
     }
 }
 
-.dislike {
+.remove {
     background-color: #ff0000;
     margin-right: 10px;
-    border: 2px solid black;
-    border-radius: 2px
-}
-
-.like {
-    background-color: #00ff00;
     border: 2px solid black;
     border-radius: 2px
 }
