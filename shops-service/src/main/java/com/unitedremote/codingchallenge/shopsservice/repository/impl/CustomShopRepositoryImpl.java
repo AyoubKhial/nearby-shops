@@ -98,4 +98,14 @@ public class CustomShopRepositoryImpl implements CustomShopRepository {
         BsonDocument document = new BsonDocument(bsonElements);
         collection.deleteOne(document);
     }
+
+    @Override
+    public void removeShopFromDislikedShops(String shopId, String userId) {
+        MongoCollection collection = this.mongoTemplate.getCollection("dislikedShops");
+        BsonElement userBson = new BsonElement("user", new BsonObjectId(new ObjectId(userId)));
+        BsonElement shopBson = new BsonElement("shop", new BsonObjectId(new ObjectId(shopId)));
+        List<BsonElement> bsonElements = Arrays.asList(userBson, shopBson);
+        BsonDocument document = new BsonDocument(bsonElements);
+        collection.deleteOne(document);
+    }
 }
