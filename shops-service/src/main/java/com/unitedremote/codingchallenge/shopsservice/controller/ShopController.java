@@ -66,4 +66,13 @@ public class ShopController {
         UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
         return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
     }
+
+    @PostMapping("/like/undo")
+    public ResponseEntity<RestResponse> removeShopFromLikedShops(@RequestParam(value = "shop") String shopId,
+                                                                 @CurrentUser UserPrincipal userPrincipal,
+                                                                 UriComponentsBuilder uriComponentsBuilder)  {
+        RestResponse restResponse = this.shopService.removeShopFromLikedShops(shopId, userPrincipal.getId());
+        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
+        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
+    }
 }

@@ -15,4 +15,6 @@ public interface ShopService {
     RestResponse addShopToLikedShops(String shopId, String userId);
 
     RestResponse addShopToDislikedShops(String shopId, String userId);
+
+    RestResponse removeShopFromLikedShops(String shopId, String userId);
 }

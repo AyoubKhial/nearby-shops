@@ -3,7 +3,7 @@ package com.unitedremote.codingchallenge.shopsservice.repository.impl;
 import com.mongodb.client.MongoCollection;
 import com.unitedremote.codingchallenge.shopsservice.model.Shop;
 import com.unitedremote.codingchallenge.shopsservice.repository.CustomShopRepository;
-import org.bson.Document;
+import org.bson.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,7 +76,7 @@ public class CustomShopRepositoryImpl implements CustomShopRepository {
         Document likedShop = new Document();
         likedShop.append("user", new ObjectId(userId));
         likedShop.append("shop", new ObjectId(shopId));
-        MongoCollection collection = mongoTemplate.getCollection("likedShops");
+        MongoCollection collection = this.mongoTemplate.getCollection("likedShops");
         collection.insertOne(likedShop);
     }
 
@@ -84,7 +85,17 @@ public class CustomShopRepositoryImpl implements CustomShopRepository {
         Document dislikedShop = new Document();
         dislikedShop.append("user", new ObjectId(userId));
         dislikedShop.append("shop", new ObjectId(shopId));
-        MongoCollection collection = mongoTemplate.getCollection("dislikedShops");
+        MongoCollection collection = this.mongoTemplate.getCollection("dislikedShops");
         collection.insertOne(dislikedShop);
+    }
+
+    @Override
+    public void removeShopFromLikedShops(String shopId, String userId) {
+        MongoCollection collection = this.mongoTemplate.getCollection("likedShops");
+        BsonElement userBson = new BsonElement("user", new BsonObjectId(new ObjectId(userId)));
+        BsonElement shopBson = new BsonElement("shop", new BsonObjectId(new ObjectId(shopId)));
+        List<BsonElement> bsonElements = Arrays.asList(userBson, shopBson);
+        BsonDocument document = new BsonDocument(bsonElements);
+        collection.deleteOne(document);
     }
 }

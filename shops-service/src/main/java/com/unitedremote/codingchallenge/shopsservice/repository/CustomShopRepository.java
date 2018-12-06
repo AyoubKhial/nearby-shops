@@ -15,4 +15,6 @@ public interface CustomShopRepository {
     void addShopToLikedShops(String shopId, String userId);
 
     void addShopToDislikedShops(String shopId, String userId);
+
+    void removeShopFromLikedShops(String shopId, String userId);
 }
