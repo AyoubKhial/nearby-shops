@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Map;
-
 import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationConstants.DEFAULT_PAGE_NUMBER;
 import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationConstants.DEFAULT_PAGE_SIZE;
 
@@ -56,6 +54,15 @@ public class ShopController {
                                                             @CurrentUser UserPrincipal userPrincipal,
                                                             UriComponentsBuilder uriComponentsBuilder)  {
         RestResponse restResponse = this.shopService.addShopToLikedShops(shopId, userPrincipal.getId());
+        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
+        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
+    }
+
+    @PostMapping("/dislike")
+    public ResponseEntity<RestResponse> addShopToDislikedShops(@RequestParam(value = "shop") String shopId,
+                                                               @CurrentUser UserPrincipal userPrincipal,
+                                                               UriComponentsBuilder uriComponentsBuilder)  {
+        RestResponse restResponse = this.shopService.addShopToDislikedShops(shopId, userPrincipal.getId());
         UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
         return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
     }

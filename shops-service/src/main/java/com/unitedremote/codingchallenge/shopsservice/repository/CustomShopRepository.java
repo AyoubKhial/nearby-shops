@@ -13,4 +13,6 @@ public interface CustomShopRepository {
     Page<Shop> getDislikedShopsByUser(Pageable pageable, String userId);
 
     void addShopToLikedShops(String shopId, String userId);
+
+    void addShopToDislikedShops(String shopId, String userId);
 }

@@ -78,4 +78,13 @@ public class CustomShopRepositoryImpl implements CustomShopRepository {
         MongoCollection collection = mongoTemplate.getCollection("likedShops");
         collection.insertOne(likedShop);
     }
+
+    @Override
+    public void addShopToDislikedShops(String shopId, String userId) {
+        Document dislikedShop = new Document();
+        dislikedShop.append("user", new ObjectId(userId));
+        dislikedShop.append("shop", new ObjectId(shopId));
+        MongoCollection collection = mongoTemplate.getCollection("dislikedShops");
+        collection.insertOne(dislikedShop);
+    }
 }

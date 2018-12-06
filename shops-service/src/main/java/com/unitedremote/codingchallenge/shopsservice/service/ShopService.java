@@ -13,4 +13,6 @@ public interface ShopService {
     PagedResponse<Shop> getDislikedShopsByUser(String page, String size, String userId);
 
     RestResponse addShopToLikedShops(String shopId, String userId);
+
+    RestResponse addShopToDislikedShops(String shopId, String userId);
 }

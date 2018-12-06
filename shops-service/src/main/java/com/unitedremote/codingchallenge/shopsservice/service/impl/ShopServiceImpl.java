@@ -122,4 +122,11 @@ public class ShopServiceImpl implements ShopService {
         return new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
                 "Shop added successfully into your liked list.");
     }
+
+    @Override
+    public RestResponse addShopToDislikedShops(String shopId, String userId) {
+        this.shopRepository.addShopToDislikedShops(shopId, userId);
+        return new RestResponse(HTTPCode.CREATED.getValue(), HTTPCode.CREATED.getKey(),
+                "Shop added successfully into your disliked list.");
+    }
 }
