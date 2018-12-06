@@ -62,17 +62,14 @@ public class ShopControllerTest {
                 .willReturn(this.pagedShopResponse);
 
         // when
-        MockHttpServletResponse response = this.mockMvc.perform(
-                get("/shops?longitude=-6.75175&latitude=33.96853")
-                        .accept(MediaType.APPLICATION_JSON))
+        MockHttpServletResponse response = this.mockMvc.perform(get("/shops?longitude=-6.75175&latitude=33.96853")
+                .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         PagedResponse<Shop> expectedPagedShopResponse = new PagedResponse<>(Collections.singletonList(DummyData.dummyShop()), 0, 0, 1, 1, true);
-        assertThat(response.getContentAsString()).isEqualTo(
-                this.jsonShop.write(expectedPagedShopResponse).getJson()
-        );
+        assertThat(response.getContentAsString()).isEqualTo(this.jsonShop.write(expectedPagedShopResponse).getJson());
     }
 
     @After

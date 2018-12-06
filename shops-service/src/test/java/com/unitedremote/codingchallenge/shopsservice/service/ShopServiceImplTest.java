@@ -65,6 +65,48 @@ public class ShopServiceImplTest {
         assertThat("The actual response is different than the expected.", actualShopResponsePage, is(equalTo(expectedShopResponsePage)));
     }
 
+    @Test
+    public void getLikedShopsByUser_UserIdGiven_ShouldReturnPagedShopsResponse() {
+        when(this.shopRepository.getLikedShopsByUser(any(PageRequest.class), anyString()))
+                .thenReturn(this.shopPage);
+
+        PagedResponse<Shop> actualPagedShopResponse = this.shopService.getLikedShopsByUser("0", "10", "1");
+
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(this.pagedShopResponse)));
+    }
+
+    @Test
+    public void getLikedShopsByUser_UserIdGiven_ShouldReturnEmptyPagedShopsResponse() {
+        when(this.shopRepository.getLikedShopsByUser(any(PageRequest.class), anyString()))
+                .thenReturn(new PageImpl<>(new ArrayList<>()));
+
+        PagedResponse<Shop> actualPagedShopResponse = this.shopService.getLikedShopsByUser("0", "10", "1");
+        PagedResponse<Shop> expectedShopResponsePage = new PagedResponse<>(Collections.emptyList(), 0, 0, 0, 1, true);
+
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(expectedShopResponsePage)));
+    }
+
+    @Test
+    public void getDislikedShopsByUser_UserIdGiven_ShouldReturnPagedShopsResponse() {
+        when(this.shopRepository.getDislikedShopsByUser(any(PageRequest.class), anyString()))
+                .thenReturn(this.shopPage);
+
+        PagedResponse<Shop> actualPagedShopResponse = this.shopService.getDislikedShopsByUser("0", "10", "1");
+
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(this.pagedShopResponse)));
+    }
+
+    @Test
+    public void getDislikedShopsByUser_UserIdGiven_ShouldReturnEmptyPagedShopsResponse() {
+        when(this.shopRepository.getDislikedShopsByUser(any(PageRequest.class), anyString()))
+                .thenReturn(new PageImpl<>(new ArrayList<>()));
+
+        PagedResponse<Shop> actualPagedShopResponse = this.shopService.getDislikedShopsByUser("0", "10", "1");
+        PagedResponse<Shop> expectedShopResponsePage = new PagedResponse<>(Collections.emptyList(), 0, 0, 0, 1, true);
+
+        assertThat("The actual response is different than the expected.", actualPagedShopResponse, is(equalTo(expectedShopResponsePage)));
+    }
+
     @After
     public void tearDown() {
         this.shopPage = null;

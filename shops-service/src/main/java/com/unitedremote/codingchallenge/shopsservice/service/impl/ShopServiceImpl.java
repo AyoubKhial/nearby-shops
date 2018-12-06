@@ -63,4 +63,54 @@ public class ShopServiceImpl implements ShopService {
         return new PagedResponse<>(shopPage.getContent(), shopPage.getNumber(),
                 shopPage.getSize(), shopPage.getTotalElements(), shopPage.getTotalPages(), shopPage.isLast());
     }
+
+    /**
+     * This method will get a list of liked shops by the current user.
+     * @param page the current response page.
+     * @param size size of each page in the response.
+     * @param userId the current user's id.
+     * @return a paged response that contain list of shops.
+     */
+    @Override
+    public PagedResponse<Shop> getLikedShopsByUser(String page, String size, String userId) {
+        ValidatingRequestParameters.parameterShouldBeInteger("page", page);
+        ValidatingRequestParameters.parameterShouldBeInteger("size", size);
+        ValidatingRequestParameters.validatePageNumberParameter(page);
+        ValidatingRequestParameters.validatePageSizeParameter(size);
+        Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+        Page<Shop> shopPage = this.shopRepository.getLikedShopsByUser(pageable, userId);
+        if(shopPage.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), shopPage.getNumber(),
+                    shopPage.getSize(), shopPage.getTotalElements(), shopPage.getTotalPages(), shopPage.isLast());
+        }
+
+        // return the paged response
+        return new PagedResponse<>(shopPage.getContent(), shopPage.getNumber(),
+                shopPage.getSize(), shopPage.getTotalElements(), shopPage.getTotalPages(), shopPage.isLast());
+    }
+
+    /**
+     * This method will get a list of disliked shops by the current user.
+     * @param page the current response page.
+     * @param size size of each page in the response.
+     * @param userId the current user's id.
+     * @return a paged response that contain list of shops.
+     */
+    @Override
+    public PagedResponse<Shop> getDislikedShopsByUser(String page, String size, String userId) {
+        ValidatingRequestParameters.parameterShouldBeInteger("page", page);
+        ValidatingRequestParameters.parameterShouldBeInteger("size", size);
+        ValidatingRequestParameters.validatePageNumberParameter(page);
+        ValidatingRequestParameters.validatePageSizeParameter(size);
+        Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+        Page<Shop> shopPage = this.shopRepository.getDislikedShopsByUser(pageable, userId);
+        if(shopPage.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), shopPage.getNumber(),
+                    shopPage.getSize(), shopPage.getTotalElements(), shopPage.getTotalPages(), shopPage.isLast());
+        }
+
+        // return the paged response
+        return new PagedResponse<>(shopPage.getContent(), shopPage.getNumber(),
+                shopPage.getSize(), shopPage.getTotalElements(), shopPage.getTotalPages(), shopPage.isLast());
+    }
 }

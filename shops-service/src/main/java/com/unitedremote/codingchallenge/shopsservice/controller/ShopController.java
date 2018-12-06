@@ -1,6 +1,8 @@
 package com.unitedremote.codingchallenge.shopsservice.controller;
 
 import com.unitedremote.codingchallenge.shopsservice.model.Shop;
+import com.unitedremote.codingchallenge.shopsservice.security.CurrentUser;
+import com.unitedremote.codingchallenge.shopsservice.security.UserPrincipal;
 import com.unitedremote.codingchallenge.shopsservice.service.ShopService;
 import com.unitedremote.codingchallenge.shopsservice.util.PagedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationCons
 import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationConstants.DEFAULT_PAGE_SIZE;
 
 @CrossOrigin(origins = "http://localhost:4200")
-
 @RestController
 @RequestMapping("/shops")
 public class ShopController {
@@ -25,9 +26,23 @@ public class ShopController {
 
     @GetMapping
     public ResponseEntity<PagedResponse<Shop>> getAllShopsSortedByDistance(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
-                                                       @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
-                                                       @RequestParam(value = "longitude", defaultValue = "createdAt") String longitude,
-                                                       @RequestParam(value = "latitude", defaultValue = "desc") String latitude) {
+                                                                           @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
+                                                                           @RequestParam(value = "longitude", defaultValue = "createdAt") String longitude,
+                                                                           @RequestParam(value = "latitude", defaultValue = "desc") String latitude) {
         return ResponseEntity.ok(this.shopService.getAllShopsSortedByDistance(page, size, longitude, latitude));
+    }
+
+    @GetMapping("/liked")
+    public ResponseEntity<PagedResponse<Shop>> getLikedShopsByUser(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
+                                                                   @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
+                                                                   @CurrentUser UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.shopService.getLikedShopsByUser(page, size, userPrincipal.getId()));
+    }
+
+    @GetMapping("/disliked")
+    public ResponseEntity<PagedResponse<Shop>> getDislikedShopsByUser(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
+                                                                      @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
+                                                                      @CurrentUser UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.shopService.getDislikedShopsByUser(page, size, userPrincipal.getId()));
     }
 }

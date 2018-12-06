@@ -18,7 +18,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @see User
  */
 @RepositoryRestResource
-public interface ShopRepository extends MongoRepository<Shop, String> {
+public interface ShopRepository extends MongoRepository<Shop, String>, CustomShopRepository {
 
     @Query("{location : {$near : {$geometry : {type: 'Point',coordinates : [?0, ?1]}}}}")
     Page<Shop> sortedShopsByNearest(Pageable pageable, double longitude, double latitude);
