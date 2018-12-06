@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationConstants.DEFAULT_PAGE_NUMBER;
 import static com.unitedremote.codingchallenge.shopsservice.util.ApplicationConstants.DEFAULT_PAGE_SIZE;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.DELETE, RequestMethod.POST})
 @RestController
 @RequestMapping("/shops")
 public class ShopController {
@@ -35,24 +35,6 @@ public class ShopController {
         return ResponseEntity.ok(this.shopService.getAllShopsSortedByDistance(page, size, longitude, latitude));
     }
 
-    @PostMapping("/like/undo")
-    public ResponseEntity<RestResponse> removeShopFromLikedShops(@RequestParam(value = "shop") String shopId,
-                                                                 @CurrentUser UserPrincipal userPrincipal,
-                                                                 UriComponentsBuilder uriComponentsBuilder)  {
-        RestResponse restResponse = this.shopService.removeShopFromLikedShops(shopId, userPrincipal.getId());
-        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
-        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
-    }
-
-    @PostMapping("/dislike/undo")
-    public ResponseEntity<RestResponse> removeShopFromDislikedShops(@RequestParam(value = "shop") String shopId,
-                                                                    @CurrentUser UserPrincipal userPrincipal,
-                                                                    UriComponentsBuilder uriComponentsBuilder)  {
-        RestResponse restResponse = this.shopService.removeShopFromDislikedShops(shopId, userPrincipal.getId());
-        UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
-        return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
-    }
-
     @GetMapping("/liked")
     public ResponseEntity<PagedResponse<Shop>> getLikedShopsByUser(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) String page,
                                                                    @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) String size,
@@ -67,21 +49,33 @@ public class ShopController {
         return ResponseEntity.ok(this.shopService.getDislikedShopsByUser(page, size, userPrincipal.getId()));
     }
 
-    @GetMapping("/like")
+    @PostMapping("/like")
     public ResponseEntity<RestResponse> addShopToLikedShops(@RequestParam(value = "shop") String shopId,
                                                             @CurrentUser UserPrincipal userPrincipal,
-                                                            UriComponentsBuilder uriComponentsBuilder)  {
+                                                            UriComponentsBuilder uriComponentsBuilder) {
         RestResponse restResponse = this.shopService.addShopToLikedShops(shopId, userPrincipal.getId());
         UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
         return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
     }
 
-    @GetMapping("/dislike")
+    @PostMapping("/dislike")
     public ResponseEntity<RestResponse> addShopToDislikedShops(@RequestParam(value = "shop") String shopId,
                                                                @CurrentUser UserPrincipal userPrincipal,
-                                                               UriComponentsBuilder uriComponentsBuilder)  {
+                                                               UriComponentsBuilder uriComponentsBuilder) {
         RestResponse restResponse = this.shopService.addShopToDislikedShops(shopId, userPrincipal.getId());
         UriComponents uriComponents = uriComponentsBuilder.path("/shops").buildAndExpand();
         return ResponseEntity.created(uriComponents.toUri()).body(restResponse);
+    }
+
+    @DeleteMapping("/like/undo")
+    public ResponseEntity<RestResponse> removeShopFromLikedShops(@RequestParam(value = "shop") String shopId,
+                                                                 @CurrentUser UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.shopService.removeShopFromLikedShops(shopId, userPrincipal.getId()));
+    }
+
+    @DeleteMapping("/dislike/undo")
+    public ResponseEntity<RestResponse> removeShopFromDislikedShops(@RequestParam(value = "shop") String shopId,
+                                                                    @CurrentUser UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.shopService.removeShopFromDislikedShops(shopId, userPrincipal.getId()));
     }
 }

@@ -116,6 +116,12 @@ public class ShopServiceImpl implements ShopService {
                 shopPage.getSize(), shopPage.getTotalElements(), shopPage.getTotalPages(), shopPage.isLast());
     }
 
+    /**
+     * Add a shop into likedShops list.
+     * @param shopId the shop we want to add into likedShops.
+     * @param userId current user.
+     * @return RestResponse
+     */
     @Override
     public RestResponse addShopToLikedShops(String shopId, String userId) {
         this.shopRepository.addShopToLikedShops(shopId, userId);
@@ -123,6 +129,12 @@ public class ShopServiceImpl implements ShopService {
                 "Shop added successfully into your liked list.");
     }
 
+    /**
+     * Add a shop into dislikedShops list.
+     * @param shopId the shop we want to add into dislikedShops.
+     * @param userId current user.
+     * @return RestResponse
+     */
     @Override
     public RestResponse addShopToDislikedShops(String shopId, String userId) {
         this.shopRepository.addShopToDislikedShops(shopId, userId);
@@ -130,6 +142,12 @@ public class ShopServiceImpl implements ShopService {
                 "Shop added successfully into your disliked list.");
     }
 
+    /**
+     * Remove a shop from likedShops list.
+     * @param shopId the shop we want to remove from likedShops.
+     * @param userId current user.
+     * @return RestResponse
+     */
     @Override
     public RestResponse removeShopFromLikedShops(String shopId, String userId) {
         this.shopRepository.removeShopFromLikedShops(shopId, userId);
@@ -137,6 +155,12 @@ public class ShopServiceImpl implements ShopService {
                 "Shop removed successfully from your liked list.");
     }
 
+    /**
+     * Remove a shop from dislikedShops list.
+     * @param shopId the shop we want to remove from dislikedShops.
+     * @param userId current user.
+     * @return RestResponse
+     */
     @Override
     public RestResponse removeShopFromDislikedShops(String shopId, String userId) {
         this.shopRepository.removeShopFromDislikedShops(shopId, userId);
