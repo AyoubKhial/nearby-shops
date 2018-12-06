@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShopsService } from 'src/app/services/shops.service';
-import { Shop } from '../models/shop';
+import { Shop } from '../../models/shop';
 
 @Component({
     selector: 'app-shops-list',

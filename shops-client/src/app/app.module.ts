@@ -11,6 +11,7 @@ import { AuthentificationService } from './services/authentification.service';
 import { TokenService } from './services/token.service';
 import { ShopsListComponent } from './components/shops-list/shops-list.component';
 import { ShopsService } from './services/shops.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { ShopsService } from './services/shops.service';
     providers: [
         AuthentificationService,
         TokenService,
-        ShopsService
+        ShopsService,
+        AuthGuardService
     ],
     bootstrap: [AppComponent]
 })

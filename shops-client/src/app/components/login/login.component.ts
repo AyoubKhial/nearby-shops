@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TokenService } from 'src/app/services/token.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from "rxjs/operators";
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     private unsubscribe = new Subject<void>();
 
-    constructor(private authentificationService: AuthentificationService, private tokenService: TokenService) { }
+    constructor(private authentificationService: AuthentificationService, private tokenService: TokenService, private router: Router) { }
 
     ngOnInit() {
         // login form appears first
@@ -147,6 +148,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         // make an http call and check the returned result
         this.authentificationService.login(user).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
             this.tokenService.saveToken(response.accessToken);
+            this.router.navigate(['/home']);
         },
         error => {
             this.badRequestError = error.error.message;

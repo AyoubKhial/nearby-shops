@@ -16,7 +16,7 @@ export class TokenService {
     // Create a token for the user
     saveToken(token: string): void {
         localStorage.setItem('token', this.tokenType + " " + token);
-        this.accessToken = token;
+        this.accessToken = this.tokenType + " " + token;
     }
 
     getToken(): string {
