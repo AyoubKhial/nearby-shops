@@ -25,4 +25,9 @@ export class TokenService {
         }
         return this.accessToken;
     }
+
+    removeToken() {
+        localStorage.removeItem('token');
+        this.accessToken = null;
+    }
 }

@@ -16,24 +16,27 @@ export class ShopsListComponent implements OnInit, OnDestroy {
 
     constructor(private shopsService: ShopsService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.listShopsSortedByDistance();
     }
 
-    listShopsSortedByDistance() {
+    // get all shops sorted by distance and remove the preferred and disliked ones
+    listShopsSortedByDistance(): void {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                this.shopsService.getAllShops(position.coords).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
-                    this.shopsService.getPreferredShops().subscribe(response2 => {
-                        var toRemove = response2.content;
-                        this.shops = response.content;
-                        for(var i = this.shops.length - 1; i >= 0; i--){
-                            for(var j = 0; j < toRemove.length; j++){
-                                if(this.shops[i] && (this.shops[i].name === toRemove[j].name)){
-                                    this.shops.splice(i, 1);
-                               }
-                           }
-                       }
+                this.shopsService.getAllShops(position.coords).pipe(takeUntil(this.unsubscribe)).subscribe(allShops => {
+                    this.shopsService.getPreferredShops().pipe(takeUntil(this.unsubscribe)).subscribe(likedShops => {
+                        this.shopsService.getDislikedShops().pipe(takeUntil(this.unsubscribe)).subscribe(dislikedShops => {
+                            var shopsToRemoveFromList = likedShops.content.concat(dislikedShops.content);
+                            this.shops = allShops.content;
+                            for (var i = this.shops.length - 1; i >= 0; i--) {
+                                for (var j = 0; j < shopsToRemoveFromList.length; j++) {
+                                    if (this.shops[i] && (this.shops[i].name === shopsToRemoveFromList[j].name)) {
+                                        this.shops.splice(i, 1);
+                                    }
+                                }
+                            }
+                        })
                     })
                 });
             });
@@ -42,16 +45,22 @@ export class ShopsListComponent implements OnInit, OnDestroy {
         }
     }
 
-    addShopToPreferred(shopId: string) {
-        this.shopsService.addShopToPreferred(shopId).subscribe(response => {
-            if(response.code == 201) {
+    // add a shop to the preferred list
+    addShopToPreferred(shopId: string): void {
+        this.shopsService.addShopToPreferred(shopId).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
+            if (response.code == 201) {
                 this.listShopsSortedByDistance();
             }
         });
     }
 
-    addShopToDisliked(shopId: string) {
-        this.shopsService.addShopToDisliked(shopId).subscribe();
+    // add a shop to the disliked list
+    addShopToDisliked(shopId: string): void {
+        this.shopsService.addShopToDisliked(shopId).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
+            if (response.code == 201) {
+                this.listShopsSortedByDistance();
+            }
+        });
     }
 
     // unsubscribing from observable subscriptions 

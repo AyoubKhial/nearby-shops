@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         // login form appears first
         this.activeFormLogin = true;
         // initialize the register form
@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     // toogle forms from login to register and vice versa
-    toggleForms() {
+    toggleForms(): void {
         this.activeFormLogin = !this.activeFormLogin;
     }
 
@@ -155,6 +155,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate(['/home']);
         },
         error => {
+            console.log(error)
             this.badRequestError = error.error.message;
         });
     }
